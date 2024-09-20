@@ -20,6 +20,6 @@ print(P + P)
 # Subtract a point from P
 print(P - G)
 
-# Perform division (inverse of multiplication)
+# Perform division (multiplying by inverse)
 print(P / 12345)
 ```

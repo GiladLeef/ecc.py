@@ -1,3 +1,6 @@
+import hashlib
+import random
+
 class Point:
     def __init__(self, x=None, y=None, compressed=None):
         if compressed:
@@ -34,24 +37,33 @@ class Point:
         return False
     
     def __add__(self, other):
-        """Overload the + operator for adding two points."""
         return add(self, other)
 
     def __sub__(self, other):
-        """Overload the - operator for subtracting two points."""
         return sub(self, other)
     
     def __mul__(self, scalar):
-        """Overload the * operator for point multiplication with a scalar."""
         return mul(self, scalar)
     
     def __truediv__(self, scalar):
-        """Overload the / operator for dividing a point by a scalar."""
         return div(self, scalar)
     
     def __neg__(self):
-        """Overload the negation operator (-) for a point."""
         return neg(self)
+
+    @staticmethod
+    def hash_message(message):
+        """Compute the SHA-256 hash of the input message."""
+        return int(hashlib.sha256(message.encode()).hexdigest(), 16)
+
+    def sign(self, message, private_key):
+        """Generate an ECDSA signature (r, s) for a message."""
+        z = self.hash_message(message) % N
+        k = random.randint(1, N)
+        R = mul(G, k)
+        r = R.x % N
+        s = ((z + r * private_key) * modInv(k, N)) % N
+        return r, s
 
 def modInv(a, m):
     return pow(a, -1, m)
@@ -108,6 +120,17 @@ def sub(P, Q):
     
 def neg(P):
     return (Point(P.x, -P.y % p))
+
+def verify(message, signature, pubkey):
+    r, s = signature
+    if not (1 <= r < N and 1 <= s < N):
+        return False
+    z = Point.hash_message(message) % N
+    w = modInv(s, N)
+    u1 = (z * w) % N
+    u2 = (r * w) % N
+    R = add(mul(G, u1), mul(pubkey, u2))
+    return R is not None and R.x % N == r
 
 a = 0
 b = 7

@@ -52,13 +52,13 @@ class Point:
         return neg(self)
 
     @staticmethod
-    def hash_message(message):
+    def hash(message):
         """Compute the SHA-256 hash of the input message."""
         return int(hashlib.sha256(message.encode()).hexdigest(), 16)
 
     def sign(self, message, private_key):
         """Generate an ECDSA signature (r, s) for a message."""
-        z = self.hash_message(message) % N
+        z = self.hash(message) % N
         k = random.randint(1, N)
         R = mul(G, k)
         r = R.x % N
@@ -125,7 +125,7 @@ def verify(message, signature, pubkey):
     r, s = signature
     if not (1 <= r < N and 1 <= s < N):
         return False
-    z = Point.hash_message(message) % N
+    z = Point.hash(message) % N
     w = modInv(s, N)
     u1 = (z * w) % N
     u2 = (r * w) % N

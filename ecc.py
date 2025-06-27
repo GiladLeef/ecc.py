@@ -71,7 +71,6 @@ class Point:
         P3 = self * R2
         return P1, P2, P3
 
-
 def modInv(a, m):
     return pow(a, -1, m)
 

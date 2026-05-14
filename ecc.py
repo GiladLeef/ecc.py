@@ -63,7 +63,7 @@ class Point:
         R = mul(G, k)
         r = R.x % N
         s = ((z + r * private_key) * modInv(k, N)) % N
-        return r, s
+        return r, s, z
 
     def trinity(self):
         P1 = self

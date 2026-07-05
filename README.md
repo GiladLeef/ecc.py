@@ -1,5 +1,5 @@
 # `ecc.py`  
-A minimalistic implementation of the **secp256k1** elliptic curve in pure Python. This library allows you to perform elliptic curve operations such as point multiplication, addition, subtraction, and division, making it useful for cryptographic applications like generating public keys.
+A minimalistic (slow) implementation of the **secp256k1** elliptic curve in pure Python. This library allows you to perform elliptic curve operations such as point multiplication, addition, subtraction, and division, making it useful for cryptographic applications like generating public keys.
 
 ## Features
 - Pure Python implementation of the **secp256k1** elliptic curve.
